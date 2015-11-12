@@ -1,1 +1,5 @@
-console.log('Hello');
+const lambda = () => {
+    console.log('Hello');
+};
+
+lambda();

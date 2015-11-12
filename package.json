@@ -23,6 +23,7 @@
   "homepage": "https://github.com/sazzer/elloria-oauth2#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-develop-server": "^0.5.0"
+    "gulp-develop-server": "^0.5.0",
+    "gulp-eslint": "^1.1.0"
   }
 }

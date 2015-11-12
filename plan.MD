@@ -1,7 +1,7 @@
 * Build Setup
   * NodeJS ✔
   * Gulp ✔
-  * ESLint
+  * ESLint ✔
   * Mocha/Istanbul
   * Cucumber
 * Project Setup
