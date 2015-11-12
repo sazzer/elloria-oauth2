@@ -1,5 +1,5 @@
 * Build Setup
-  * NodeJS
+  * NodeJS ✔
   * Gulp
   * ESLint
   * Mocha/Istanbul
