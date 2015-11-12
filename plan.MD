@@ -3,7 +3,7 @@
   * Gulp ✔
   * ESLint ✔
   * Mocha/Istanbul ✔
-  * ESDoc
+  * ESDoc ✔
   * Cucumber
 * Project Setup
   * Express4

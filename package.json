@@ -25,6 +25,7 @@
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
     "gulp-develop-server": "^0.5.0",
+    "gulp-esdoc": "^0.1.0",
     "gulp-eslint": "^1.1.0",
     "gulp-istanbul": "^0.10.2",
     "gulp-mocha": "^2.1.3"

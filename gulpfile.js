@@ -3,6 +3,7 @@ const server = require('gulp-develop-server');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
+const esdoc = require('gulp-esdoc');
 
 gulp.task('lint:main', () => {
     return gulp.src('src/main/**/*.js')
@@ -52,7 +53,25 @@ gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
 
 gulp.task('integration-test');
 
-gulp.task('build', ['lint:main', 'unit-test']);
+gulp.task('doc', () => {
+    return gulp.src('src/main')
+        .pipe(esdoc({
+            destination: './target/docs',
+            test: {
+                type: 'mocha',
+                source: './src/test'
+            },
+            autoPrivate: true,
+            unexportIdentifier: true,
+            undocumentIdentifier: true,
+            buildinExternal: true,
+            coverage: true,
+            includeSource: true,
+            lint: true
+        }));
+});
+
+gulp.task('build', ['lint:main', 'doc', 'unit-test']);
 gulp.task('test', ['build', 'unit-test', 'integration-test']);
 
 gulp.task('start', ['build'], () => {
