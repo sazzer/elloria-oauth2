@@ -1,5 +1,3 @@
-const lambda = () => {
-    console.log('Hello');
-};
+const lambda = require('./second').lambda;
 
-lambda();
+console.log(lambda());

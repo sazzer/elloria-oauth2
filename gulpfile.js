@@ -1,6 +1,8 @@
 const gulp = require('gulp');
 const server = require('gulp-develop-server');
 const eslint = require('gulp-eslint');
+const mocha = require('gulp-mocha');
+const istanbul = require('gulp-istanbul');
 
 gulp.task('lint:main', () => {
     return gulp.src('src/main/**/*.js')
@@ -11,7 +13,43 @@ gulp.task('lint:main', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('unit-test');
+gulp.task('lint:unit-test', () => {
+    return gulp.src('src/test/**/*.js')
+        .pipe(eslint({
+            configFile: './eslintrc'
+        }))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
+gulp.task('pre-unit-test', () => {
+    return gulp.src('src/main/**/*.js')
+        .pipe(istanbul({
+            includeUntested: true
+        }))
+        .pipe(istanbul.hookRequire());
+});
+
+gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
+    return gulp.src('src/test/**/*-spec.js')
+        .pipe(mocha({
+            ui: 'bdd'
+        }))
+        .pipe(istanbul.writeReports({
+            dir: './target/coverage',
+            reporters: [
+                'lcov',
+                'html',
+                'json',
+                'text',
+                'text-summary'
+            ],
+            reportOpts: {
+                dir: './target/coverage'
+            }
+        }));
+});
+
 gulp.task('integration-test');
 
 gulp.task('build', ['lint:main', 'unit-test']);
