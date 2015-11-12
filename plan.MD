@@ -1,6 +1,6 @@
 * Build Setup
   * NodeJS ✔
-  * Gulp
+  * Gulp ✔
   * ESLint
   * Mocha/Istanbul
   * Cucumber
