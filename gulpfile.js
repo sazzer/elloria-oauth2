@@ -1,9 +1,14 @@
+"use strict";
+
 const gulp = require('gulp');
 const server = require('gulp-develop-server');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
 const esdoc = require('gulp-esdoc');
+const gutil = require('gulp-util');
+
+mocha.watched = false;
 
 gulp.task('lint:main', () => {
     return gulp.src('src/main/**/*.js')
@@ -34,8 +39,17 @@ gulp.task('pre-unit-test', () => {
 gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
     return gulp.src('src/test/**/*-spec.js')
         .pipe(mocha({
-            ui: 'bdd'
+            ui: 'bdd',
+            growl: 'true'
         }))
+        .on('error', function(err) {
+          gutil.log(err);
+          if (mocha.watched) {
+            this.emit('end');
+          } else {
+            process.exit(1);
+          }
+        })
         .pipe(istanbul.writeReports({
             dir: './target/coverage',
             reporters: [
@@ -83,6 +97,7 @@ gulp.task('watch:start', ['start'], () => {
 });
 
 gulp.task('watch:build', () => {
+    mocha.watched = true;
     gulp.watch('src/**/*', ['build']);
 });
 
