@@ -43,7 +43,7 @@ gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
             ui: 'bdd',
             growl: 'true'
         }))
-        .on('error', function(err) {
+        .on(mocha.watched ? 'error' : 'ignoreme', function(err) {
           gutil.log(err);
           if (mocha.watched) {
             this.emit('end');
