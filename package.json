@@ -23,7 +23,9 @@
   "homepage": "https://github.com/sazzer/elloria-oauth2#readme",
   "devDependencies": {
     "chai": "^3.4.1",
+    "cucumber": "^0.9.0",
     "gulp": "^3.9.0",
+    "gulp-cucumber": "0.0.14",
     "gulp-develop-server": "^0.5.0",
     "gulp-esdoc": "^0.1.0",
     "gulp-eslint": "^1.1.0",

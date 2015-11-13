@@ -7,6 +7,7 @@ const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
 const esdoc = require('gulp-esdoc');
 const gutil = require('gulp-util');
+const cucumber = require('gulp-cucumber');
 
 mocha.watched = false;
 
@@ -65,7 +66,23 @@ gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
         }));
 });
 
-gulp.task('integration-test');
+gulp.task('lint:integration-test', () => {
+    return gulp.src('src/cucumber/**/*.js')
+        .pipe(eslint({
+            configFile: './eslintrc'
+        }))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
+gulp.task('integration-test', ['lint:integration-test'], () => {
+    return gulp.src('src/cucumber/features/**/*')
+        .pipe(cucumber({
+            steps: 'src/cucumber/steps/**/*.js',
+            support: 'src/cucumber/support/**/*.js',
+            tags: ['~@ignore']
+        }));
+});
 
 gulp.task('doc', () => {
     return gulp.src('src/main')
