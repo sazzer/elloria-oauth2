@@ -113,7 +113,7 @@ gulp.task('watch:start', ['start'], () => {
     gulp.watch('src/**/*', ['start', server.restart]);
 });
 
-gulp.task('watch:build', () => {
+gulp.task('watch:build', ['build'], () => {
     mocha.watched = true;
     gulp.watch('src/**/*', ['build']);
 });

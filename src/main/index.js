@@ -1,3 +1,10 @@
-const lambda = require('./second').lambda;
+const express = require('./server');
 
-console.log(lambda());
+const app = express();
+
+const server = app.listen(3000, function () {
+    const host = server.address().address;
+    const port = server.address().port;
+
+    console.log('Example app listening at http://%s:%s', host, port);
+});
