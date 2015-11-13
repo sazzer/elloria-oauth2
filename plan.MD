@@ -4,6 +4,6 @@
   * ESLint ✔
   * Mocha/Istanbul ✔
   * ESDoc ✔
-  * Cucumber
+  * Cucumber ✔
 * Project Setup
   * Express4
