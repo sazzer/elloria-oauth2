@@ -30,4 +30,20 @@ describe('Debug Routes', () => {
             return response.expect('Pong');
         });
     });
+    
+    describe('GET /api/debug/now', () => {
+        let response;
+        
+        beforeEach(() => {
+            response = request(app)
+                .get('/api/debug/now');
+        });
+            
+        it('Returns a 200 OK', () => {
+            return response.expect(200);
+        });
+        it('Returns a content type of text/plain', () => {
+            return response.expect('Content-Type', /text\/plain/);
+        });
+    });
 });
