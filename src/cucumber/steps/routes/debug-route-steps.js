@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 
-const PingColumnMapping = {
+const DebugColumnMapping = {
     'Status Code': {
         name: 'statusCode',
         parser: parseInt
@@ -17,16 +17,25 @@ module.exports = function () {
         this.request()
             .get('/api/debug/ping')
             .end((err, res) => {
-                this.context.pingResponse = res;
+                this.context.debugResponse = res;
                 done();
             });
     });
 
-    this.Then(/^the ping response matches:$/, function(expected) {
+    this.When(/^I request the current server time$/, function(done) {
+        this.request()
+            .get('/api/debug/now')
+            .end((err, res) => {
+                this.context.debugResponse = res;
+                done();
+            });
+    });
+
+    this.Then(/^the debug response matches:$/, function(expected) {
         const data = new Map();
         const expectedData = expected.rowsHash();
         Object.keys(expectedData).forEach((key) => {
-            const mapping = PingColumnMapping[key] || {name: key.toLowerCase()};
+            const mapping = DebugColumnMapping[key] || {name: key.toLowerCase()};
             let value = expectedData[key];
             if (mapping.parser) {
                 value = mapping.parser(value);
@@ -36,7 +45,7 @@ module.exports = function () {
         });
 
         data.forEach((value, key) => {
-            expect(this.context.pingResponse).to.have.property(key, value);
+            expect(this.context.debugResponse).to.have.property(key, value);
         });
     });
 };
