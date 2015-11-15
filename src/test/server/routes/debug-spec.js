@@ -10,7 +10,7 @@ const moment = require('moment-timezone');
 describe('Debug Routes', () => {
     let app;
     let mockMoment;
-    
+
     before(() => {
         mockery.enable({
             warnOnReplace: false,
@@ -18,28 +18,28 @@ describe('Debug Routes', () => {
             useCleanCache: true
         });
     });
-    
+
     after(() => {
         mockery.disable();
     });
-    
+
     beforeEach(() => {
         mockMoment = sinon.stub().returns(moment('2014-06-01T12:00:00Z'));
         mockery.registerMock('moment-timezone', mockMoment);
-            
+
         const debugRoutes = require('root-require')('src/main/server/routes/debug');
         app = express();
         debugRoutes(app);
     });
-    
+
     describe('GET /api/debug/ping', () => {
         let response;
-        
+
         beforeEach(() => {
             response = request(app)
                 .get('/api/debug/ping');
         });
-            
+
         it('Returns a 200 OK', () => {
             return response.expect(200);
         });
@@ -50,15 +50,15 @@ describe('Debug Routes', () => {
             return response.expect('Pong');
         });
     });
-    
+
     describe('GET /api/debug/now', () => {
         let response;
-        
+
         beforeEach(() => {
             response = request(app)
                 .get('/api/debug/now');
         });
-            
+
         it('Returns a 200 OK', () => {
             return response.expect(200);
         });
