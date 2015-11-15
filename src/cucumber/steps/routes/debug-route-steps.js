@@ -1,4 +1,16 @@
+'use strict';
+
 const expect = require('chai').expect;
+
+const PingColumnMapping = {
+    'Status Code': {
+        name: 'statusCode',
+        parser: parseInt
+    },
+    'Content Type': {
+        name: 'type'
+    }
+};
 
 module.exports = function () {
     this.When(/^I ping the debug controller$/, function(done) {
@@ -10,15 +22,21 @@ module.exports = function () {
             });
     });
 
-    this.Then(/^the ping response is "([^"]*)"$/, function(expected) {
-        expect(this.context.pingResponse).to.have.property('text', expected);
-    });
+    this.Then(/^the ping response matches:$/, function(expected) {
+        const data = new Map();
+        const expectedData = expected.rowsHash();
+        Object.keys(expectedData).forEach((key) => {
+            const mapping = PingColumnMapping[key] || {name: key.toLowerCase()};
+            let value = expectedData[key];
+            if (mapping.parser) {
+                value = mapping.parser(value);
+            }
 
-    this.Then(/^the ping status code is (\d\d\d)$/, function(expected) {
-        expect(this.context.pingResponse).to.have.property('statusCode', parseInt(expected));
-    });
+            data.set(mapping.name, value);
+        });
 
-    this.Then(/^the ping content type is "([^"]*)"$/, function(expected) {
-        expect(this.context.pingResponse).to.have.property('type', expected);
+        data.forEach((value, key) => {
+            expect(this.context.pingResponse).to.have.property(key, value);
+        });
     });
 };
