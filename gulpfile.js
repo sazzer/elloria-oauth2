@@ -30,7 +30,7 @@ gulp.task('lint:unit-test', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('pre-unit-test', () => {
+gulp.task('pre-test', () => {
     return gulp.src('src/main/**/*.js')
         .pipe(istanbul({
             includeUntested: true
@@ -38,7 +38,7 @@ gulp.task('pre-unit-test', () => {
         .pipe(istanbul.hookRequire());
 });
 
-gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
+gulp.task('unit-test', ['lint:unit-test', 'pre-test'], () => {
     return gulp.src('src/test/**/*-spec.js')
         .pipe(mocha({
             ui: 'bdd',
@@ -53,7 +53,7 @@ gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
           }
         })
         .pipe(istanbul.writeReports({
-            dir: './target/coverage',
+            dir: './target/coverage/unit',
             reporters: [
                 'lcov',
                 'html',
@@ -62,7 +62,7 @@ gulp.task('unit-test', ['lint:unit-test', 'pre-unit-test'], () => {
                 'text-summary'
             ],
             reportOpts: {
-                dir: './target/coverage'
+                dir: './target/coverage/unit'
             }
         }));
 });
@@ -76,12 +76,25 @@ gulp.task('lint:integration-test', () => {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('integration-test', ['lint:integration-test'], () => {
+gulp.task('integration-test', ['lint:integration-test', 'pre-test'], () => {
     return gulp.src('src/cucumber/features/**/*')
         .pipe(cucumber({
             steps: 'src/cucumber/steps/**/*.js',
             support: 'src/cucumber/support/**/*.js',
             tags: ['~@ignore']
+        }))
+        .pipe(istanbul.writeReports({
+            dir: './target/coverage/integration',
+            reporters: [
+                'lcov',
+                'html',
+                'json',
+                'text',
+                'text-summary'
+            ],
+            reportOpts: {
+                dir: './target/coverage/integration'
+            }
         }));
 });
 
