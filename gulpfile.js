@@ -8,6 +8,7 @@ const istanbul = require('gulp-istanbul');
 const esdoc = require('gulp-esdoc');
 const gutil = require('gulp-util');
 const cucumber = require('gulp-cucumber');
+const runSequence = require('run-sequence');
 
 mocha.watched = false;
 
@@ -103,7 +104,9 @@ gulp.task('doc', () => {
 });
 
 gulp.task('build', ['lint:main', 'doc', 'unit-test']);
-gulp.task('test', ['build', 'unit-test', 'integration-test']);
+gulp.task('test', (cb) => {
+    runSequence('unit-test', 'integration-test', cb);
+});
 
 gulp.task('start', ['build'], () => {
     server.listen({path: './src/main/index.js'});
