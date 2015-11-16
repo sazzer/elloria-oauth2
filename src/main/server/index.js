@@ -33,5 +33,6 @@ module.exports = () => {
 
     // Set up routes
     require('./routes/debug')(router);
+    require('./routes/scopes')(router);
     return app;
 }
