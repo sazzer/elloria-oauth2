@@ -1,3 +1,5 @@
+'use strict';
+
 /* istanbul ignore next */
 (() => {
     const express = require('./server');

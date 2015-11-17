@@ -1,3 +1,5 @@
+'use strict';
+
 const request = require('supertest');
 const rootRequire = require('root-require');
 const mockery = require('mockery');

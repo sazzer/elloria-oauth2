@@ -116,7 +116,9 @@ gulp.task('doc', () => {
         }));
 });
 
-gulp.task('build', ['lint:main', 'doc', 'unit-test']);
+gulp.task('lint', ['lint:main', 'lint:unit-test', 'lint:integration-test']);
+
+gulp.task('build', ['lint', 'doc', 'unit-test']);
 gulp.task('test', (cb) => {
     runSequence('unit-test', 'integration-test', cb);
 });

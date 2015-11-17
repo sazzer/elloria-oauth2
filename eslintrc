@@ -28,12 +28,13 @@
             "newIsCap": true,
             "capIsNew": false
         }],
-        "indent": [2, 
-            4, 
+        "indent": [2,
+            4,
             {
                 "SwitchCase": 1
             }
-        ]
+        ],
+        "strict": [2, "global"]
     },
     "env": {
         "es6": true,
