@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 const express = require('express');
-const request = require('supertest-as-promised');
+const request = require('supertest');
 const mockery = require('mockery');
 const sinon = require('sinon');
 const moment = require('moment-timezone');
@@ -35,38 +35,46 @@ describe('Debug Routes', () => {
     describe('GET /api/debug/ping', () => {
         let response;
 
-        beforeEach(() => {
-            response = request(app)
-                .get('/api/debug/ping');
+        beforeEach((cb) => {
+            request(app)
+                .get('/api/debug/ping')
+                .end((err, res) => {
+                    response = res;
+                    cb(err);
+                });
         });
 
         it('Returns a 200 OK', () => {
-            return response.expect(200);
+            expect(response.statusCode).to.equal(200);
         });
         it('Returns a content type of text/plain', () => {
-            return response.expect('Content-Type', /text\/plain/);
+            expect(response.type).to.equal('text/plain');
         });
         it('Returns the expected payload', () => {
-            return response.expect('Pong');
+            expect(response.text).to.equal('Pong');
         });
     });
 
     describe('GET /api/debug/now', () => {
         let response;
 
-        beforeEach(() => {
-            response = request(app)
-                .get('/api/debug/now');
+        beforeEach((cb) => {
+            request(app)
+                .get('/api/debug/now')
+                .end((err, res) => {
+                    response = res;
+                    cb(err);
+                });
         });
 
         it('Returns a 200 OK', () => {
-            return response.expect(200);
+            expect(response.statusCode).to.equal(200);
         });
         it('Returns a content type of text/plain', () => {
-            return response.expect('Content-Type', /text\/plain/);
+            expect(response.type).to.equal('text/plain');
         });
         it('Returns the expected payload', () => {
-            return response.expect('2014-06-01T12:00:00+00:00');
+            expect(response.text).to.equal('2014-06-01T12:00:00+00:00');
         });
     });
 });

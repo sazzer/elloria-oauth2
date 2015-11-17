@@ -21,7 +21,7 @@ describe('Scopes Routes', () => {
                 .get('/api/scopes')
                 .end((err, res) => {
                     response = res;
-                    cb();
+                    cb(err);
                 });
         });
 
@@ -50,7 +50,7 @@ describe('Scopes Routes', () => {
                 .get('/api/scopes/oauth2:admin')
                 .end((err, res) => {
                     response = res;
-                    cb();
+                    cb(err);
                 });
         });
 
