@@ -11,9 +11,15 @@ const log = require('../../log');
  */
 function mapScope(scope) {
     log.debug({scope: scope}, 'Translating scope to HTTP API');
-    return {
-        scope: scope.id
+    const result = {
+        id: scope.id,
+        scope: scope.scope
     };
+    if (scope.namespace !== null) {
+        result.namespace = scope.namespace;
+    }
+
+    return result;
 }
 
 /**

@@ -3,6 +3,7 @@
 const Scope = require('./scope');
 
 const SCOPES = [
+    new Scope({scope: 'noop'}),
     new Scope({namespace: 'oauth2', scope: 'admin'}),
     new Scope({namespace: 'oauth2', scope: 'read'}),
     new Scope({namespace: 'oauth2', scope: 'write'})

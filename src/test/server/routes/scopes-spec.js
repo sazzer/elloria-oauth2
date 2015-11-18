@@ -38,11 +38,17 @@ describe('Scopes Routes', () => {
         before((cb) => {
             mockScopes.list.returns(Promise.resolve([
                 {
-                    id: 'oauth2:admin'
+                    id: 'oauth2:admin',
+                    namespace: 'oauth2',
+                    scope: 'admin'
                 }, {
-                    id: 'oauth2:read'
+                    id: 'oauth2:read',
+                    namespace: 'oauth2',
+                    scope: 'read'
                 }, {
-                    id: 'oauth2:write'
+                    id: 'oauth2:write',
+                    namespace: 'oauth2',
+                    scope: 'write'
                 }
             ]));
 
@@ -65,9 +71,9 @@ describe('Scopes Routes', () => {
         });
         it('Returns an array of the expected values', () => {
             expect(response.body).to.have.length(3);
-            expect(response.body).to.include({scope: 'oauth2:admin'});
-            expect(response.body).to.include({scope: 'oauth2:read'});
-            expect(response.body).to.include({scope: 'oauth2:write'});
+            expect(response.body).to.include({id: 'oauth2:admin', namespace: 'oauth2', scope: 'admin'});
+            expect(response.body).to.include({id: 'oauth2:read', namespace: 'oauth2', scope: 'read'});
+            expect(response.body).to.include({id: 'oauth2:write', namespace: 'oauth2', scope: 'write'});
         });
     });
 
@@ -98,7 +104,7 @@ describe('Scopes Routes', () => {
             expect(response.body).to.be.an.object;
         });
         it('Returns the expected values', () => {
-            expect(response.body).to.deep.equal({scope: 'oauth2:admin'});
+            expect(response.body).to.deep.equal({id: 'oauth2:admin'});
         });
     });
 });
