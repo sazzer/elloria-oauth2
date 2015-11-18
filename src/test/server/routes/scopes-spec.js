@@ -3,20 +3,49 @@
 const expect = require('chai').expect;
 const express = require('express');
 const request = require('supertest');
+const mockery = require('mockery');
+const sinon = require('sinon');
 
 describe('Scopes Routes', () => {
     let app;
+    let mockScopes;
 
-    beforeEach(() => {
+    before(() => {
+        mockery.enable({
+            warnOnReplace: false,
+            warnOnUnregistered: false,
+            useCleanCache: true
+        });
+
+        mockScopes = {
+            list: sinon.stub(),
+            get: sinon.stub()
+        };
+        mockery.registerMock('../../oauth2/scopes', mockScopes);
+
         const scopesRoutes = require('root-require')('src/main/server/routes/scopes');
         app = express();
         scopesRoutes(app);
     });
 
+    after(() => {
+        mockery.disable();
+    });
+
     describe('GET /api/scopes', () => {
         let response;
 
-        beforeEach((cb) => {
+        before((cb) => {
+            mockScopes.list.returns(Promise.resolve([
+                {
+                    id: 'oauth2:admin'
+                }, {
+                    id: 'oauth2:read'
+                }, {
+                    id: 'oauth2:write'
+                }
+            ]));
+
             request(app)
                 .get('/api/scopes')
                 .end((err, res) => {
@@ -45,7 +74,12 @@ describe('Scopes Routes', () => {
     describe('GET /api/scopes/:id', () => {
         let response;
 
-        beforeEach((cb) => {
+        before((cb) => {
+            mockScopes.get.withArgs('oauth2:admin')
+                .returns(Promise.resolve({
+                    id: 'oauth2:admin'
+                }));
+
             request(app)
                 .get('/api/scopes/oauth2:admin')
                 .end((err, res) => {

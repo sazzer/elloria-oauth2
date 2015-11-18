@@ -2,6 +2,7 @@
 
 const Router = require('express').Router;
 const scopes = require('../../oauth2/scopes');
+const log = require('../../log');
 
 /**
  * Map a single scope from the internal definition to the API definition
@@ -9,6 +10,7 @@ const scopes = require('../../oauth2/scopes');
  * @return {Object} the API version of the scope
  */
 function mapScope(scope) {
+    log.debug({scope: scope}, 'Translating scope to HTTP API');
     return {
         scope: scope.id
     };
@@ -32,6 +34,7 @@ module.exports = function(router) {
     });
 
     scopesRouter.get('/:id', (req, res) => {
+        log.info({scope: req.params.id}, 'Getting scope with ID');
         scopes.get(req.params.id)
             .then(mapScope)
             .then(scope => res.send(scope))
