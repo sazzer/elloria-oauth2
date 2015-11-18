@@ -17,13 +17,7 @@ describe('Debug Routes', () => {
             warnOnUnregistered: false,
             useCleanCache: true
         });
-    });
 
-    after(() => {
-        mockery.disable();
-    });
-
-    beforeEach(() => {
         mockMoment = sinon.stub().returns(moment('2014-06-01T12:00:00Z'));
         mockery.registerMock('moment-timezone', mockMoment);
 
@@ -32,10 +26,14 @@ describe('Debug Routes', () => {
         debugRoutes(app);
     });
 
+    after(() => {
+        mockery.disable();
+    });
+
     describe('GET /api/debug/ping', () => {
         let response;
 
-        beforeEach((cb) => {
+        before((cb) => {
             request(app)
                 .get('/api/debug/ping')
                 .end((err, res) => {
@@ -58,7 +56,7 @@ describe('Debug Routes', () => {
     describe('GET /api/debug/now', () => {
         let response;
 
-        beforeEach((cb) => {
+        before((cb) => {
             request(app)
                 .get('/api/debug/now')
                 .end((err, res) => {
