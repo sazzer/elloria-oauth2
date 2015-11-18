@@ -3,9 +3,9 @@
 const Scope = require('./scope');
 
 const SCOPES = [
-    new Scope('oauth2:admin'),
-    new Scope('oauth2:read'),
-    new Scope('oauth2:write')
+    new Scope({namespace: 'oauth2', scope: 'admin'}),
+    new Scope({namespace: 'oauth2', scope: 'read'}),
+    new Scope({namespace: 'oauth2', scope: 'write'})
 ];
 
 /**
