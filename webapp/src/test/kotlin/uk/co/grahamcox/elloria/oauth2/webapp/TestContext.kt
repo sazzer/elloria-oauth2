@@ -7,6 +7,10 @@ import org.springframework.context.annotation.Profile
 import uk.co.grahamcox.elloria.oauth2.spring.CoreContext
 import uk.co.grahamcox.elloria.oauth2.webapp.spring.ServletContext
 import java.time.Clock
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.time.zone.ZoneRules
 
 /**
  * Root configuration for the Spring Context to use for tests
@@ -17,8 +21,12 @@ import java.time.Clock
         ServletContext::class
 )
 open class TestContext {
+    /** The timezone to use */
+    private val UTC_TIMEZONE = ZoneId.of("UTC")
+
     /** The clock to use for the tests */
     @Bean
     @Profile("test")
-    open fun clock() = Clock.systemUTC()
+    open fun clock() = Clock.fixed(ZonedDateTime.of(2015, 11, 26, 7, 50, 25, 0, UTC_TIMEZONE).toInstant(),
+            UTC_TIMEZONE)
 }
