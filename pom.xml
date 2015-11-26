@@ -20,6 +20,7 @@
     </prerequisites>
     <modules>
         <module>webapp</module>
+        <module>verification</module>
     </modules>
     <scm>
         <connection>scm:git:https://github.com/sazzer/elloria-oauth2.git</connection>
