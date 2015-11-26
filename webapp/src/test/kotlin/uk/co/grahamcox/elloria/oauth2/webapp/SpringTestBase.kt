@@ -1,15 +1,16 @@
 package uk.co.grahamcox.elloria.oauth2.webapp
 
 import org.junit.Before
+import org.junit.ClassRule
+import org.junit.Rule
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.junit4.rules.SpringClassRule
+import org.springframework.test.context.junit4.rules.SpringMethodRule
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -19,9 +20,21 @@ import org.springframework.web.context.WebApplicationContext
  */
 @WebAppConfiguration
 @ActiveProfiles("test")
-@RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(classes = arrayOf(TestContext::class))
 open class SpringTestBase {
+    companion object {
+        /** Class based rule for Spring Runner */
+        @ClassRule
+        @JvmField
+        public val SCR = SpringClassRule()
+    }
+
+    /** Method based rule for Spring Runner */
+    @Rule
+    @JvmField
+    public val springMethodRule = SpringMethodRule()
+
+
     /** The Web Application Context, used to access the webapp during tests */
     @Autowired
     private lateinit var webAppContext: WebApplicationContext
