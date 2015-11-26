@@ -39,8 +39,9 @@
         <!-- Other stuff -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.jackson>2.6.3</version.jackson>
         <!-- Dependency Versions -->
+        <version.cucumber>1.2.4</version.cucumber>
+        <version.jackson>2.6.3</version.jackson>
         <version.jdk>1.8</version.jdk>
         <version.kotlin>1.0.0-beta-2423</version.kotlin>
         <version.maven>3.2.1</version.maven>
@@ -93,6 +94,21 @@
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path-assert</artifactId>
                 <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-java</artifactId>
+                <version>${version.cucumber}</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${version.cucumber}</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-spring</artifactId>
+                <version>${version.cucumber}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -149,6 +165,11 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${version.slf4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${version.spring}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
