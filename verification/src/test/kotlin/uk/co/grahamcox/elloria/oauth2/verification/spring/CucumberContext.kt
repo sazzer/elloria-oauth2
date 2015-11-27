@@ -44,5 +44,6 @@ open class CucumberContext {
      */
     @Bean
     @Autowired
-    open fun debugControllerFacade(restTemplate: RestTemplate) = DebugControllerFacade(restTemplate)
+    open fun debugControllerFacade(restTemplate: RestTemplate) =
+            DebugControllerFacade("http://localhost:9998/oauth2", restTemplate)
 }
