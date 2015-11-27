@@ -1,8 +1,8 @@
 Feature: Dummy Controller
   @wip
   Scenario Outline: Request Status Code
-    When I GET /api/debug/status/<Status>
-    Then I get a status code of <Status>
+    When I get the debug status for <Status>
+    Then the debug status code is <Status>
 
     Examples:
     | Status |
