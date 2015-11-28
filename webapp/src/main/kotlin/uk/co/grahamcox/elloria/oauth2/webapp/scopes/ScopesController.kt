@@ -1,11 +1,12 @@
 package uk.co.grahamcox.elloria.oauth2.webapp.scopes
 
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.*
 import uk.co.grahamcox.elloria.oauth2.scopes.ScopeFinder
 import uk.co.grahamcox.elloria.oauth2.scopes.ScopeId
+import uk.co.grahamcox.elloria.oauth2.scopes.ScopeNotFoundException
 import uk.co.grahamcox.elloria.oauth2.scopes.Scope as InternalScope
 
 /**
@@ -27,6 +28,18 @@ private fun toHttpScope(scope: InternalScope) = Scope(
 @Controller
 @RequestMapping("/api/scopes")
 class ScopesController(private val scopeFinder: ScopeFinder) {
+    /** the logger to use */
+    private val LOG = LoggerFactory.getLogger(ScopesController::class.java)
+
+    /**
+     * Handler for when a requested scope wasn't found
+     * @param e The exception to handle
+     */
+    @ExceptionHandler(ScopeNotFoundException::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    fun scopeNotFound(e: ScopeNotFoundException) {
+        LOG.warn("Failed to find scope: {}", e.scope)
+    }
 
     /**
      * Get a single scope by it's ID
@@ -36,7 +49,7 @@ class ScopesController(private val scopeFinder: ScopeFinder) {
     @RequestMapping("/{id}")
     @ResponseBody
     fun get(@PathVariable id: String) =
-            toHttpScope(scopeFinder.getById(ScopeId.parse(id)) ?: throw IllegalStateException())
+        toHttpScope(scopeFinder.getById(ScopeId.parse(id)))
 
     /**
      * List all of the scopes
