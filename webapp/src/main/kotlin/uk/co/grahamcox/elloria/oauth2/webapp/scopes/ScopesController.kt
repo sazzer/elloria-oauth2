@@ -1,9 +1,11 @@
 package uk.co.grahamcox.elloria.oauth2.webapp.scopes
 
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import uk.co.grahamcox.elloria.oauth2.scopes.ScopeFinder
+import uk.co.grahamcox.elloria.oauth2.scopes.ScopeId
 import uk.co.grahamcox.elloria.oauth2.scopes.Scope as InternalScope
 
 /**
@@ -27,7 +29,18 @@ private fun toHttpScope(scope: InternalScope) = Scope(
 class ScopesController(private val scopeFinder: ScopeFinder) {
 
     /**
+     * Get a single scope by it's ID
+     * @param id The ID of the scope to get
+     * @return the scope
+     */
+    @RequestMapping("/{id}")
+    @ResponseBody
+    fun get(@PathVariable id: String) =
+            toHttpScope(scopeFinder.getById(ScopeId.parse(id)) ?: throw IllegalStateException())
+
+    /**
      * List all of the scopes
+     * @return the list of all of the scopes
      */
     @RequestMapping
     @ResponseBody
