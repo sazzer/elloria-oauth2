@@ -12,6 +12,7 @@ import uk.co.grahamcox.elloria.oauth2.scopes.Scope as InternalScope
  * @return the converted scope
  */
 private fun toHttpScope(scope: InternalScope) = Scope(
+    id = scope.id.toString(),
     namespace = scope.id.namespace,
     scope = scope.id.scope,
     description = scope.description
